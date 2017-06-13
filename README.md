@@ -2,8 +2,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
-[![Quality Score][ico-code-quality]][link-code-quality]
-[![Total Downloads][ico-downloads]][link-downloads]
 
 This package provides a consistent user interface for filtering and searching through entries. This doesn't include any backend functionality to implement filtering or searching, but just provides a simple way of including the UI in your Laravel views.
 
@@ -82,11 +80,8 @@ To render the tools, simply include
 This package is covered by the GNU General Public License v3. See the [License File](LICENSE.md) for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/bnjns/laravel-searchtools.svg?style=flat
-[ico-license]: https://img.shields.io/github/license/bnjns/laravel-searchtools.svg?style=flat
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/bnjns/laravel-searchtools.svg?style=flat
-[ico-downloads]: https://img.shields.io/packagist/dt/bnjns/laravel-searchtools.svg?style=flat
+[ico-license]: https://img.shields.io/packagist/l/bnjns/laravel-searchtools.svg?style=flat
+
 
 [link-packagist]: https://packagist.org/packages/bnjns/laravel-searchtools
-[link-code-quality]: https://scrutinizer-ci.com/g/bnjns/laravel-searchtools
-[link-downloads]: https://packagist.org/packages/bnjns/laravel-searchtools
 [link-author]: https://github.com/bnjns
