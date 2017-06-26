@@ -22,6 +22,9 @@ class SearchToolsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/resources/assets/css' => public_path('css/vendors/search_tools'),
         ], 'styles');
+        $this->publishes([
+            __DIR__ . '/resources/assets/js/search_tools.min.js' => public_path('js/vendors/search_tools/search_tools.js'),
+        ], 'scripts');
     }
     
     /**
@@ -30,7 +33,7 @@ class SearchToolsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('search-tools', function($app) {
+        $this->app->singleton('search-tools', function ($app) {
             return new SearchTools($app['request'], $app['router']);
         });
     }

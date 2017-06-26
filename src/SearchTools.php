@@ -130,18 +130,18 @@ class SearchTools
         $query = $this->request->query();
         
         // Set up the query
-        if (!is_null($this->values['filter']) && isset($query['filter'])) {
+        if(!is_null($this->values['filter']) && isset($query['filter'])) {
             unset($query['filter']);
         }
-        if (!is_null($this->values['search']) && isset($query['search'])) {
+        if(!is_null($this->values['search']) && isset($query['search'])) {
             unset($query['search']);
         }
-        if ($this->request->has('page') && isset($query['page'])) {
+        if($this->request->has('page') && isset($query['page'])) {
             unset($query['page']);
         }
         
         // Set the filter values
-        if (count($this->filterOptions)) {
+        if(count($this->filterOptions)) {
             $filter_list = [
                 (object) [
                     'text'  => '- no filter -',
@@ -149,7 +149,7 @@ class SearchTools
                     'value' => '',
                 ],
             ];
-            foreach ($this->filterOptions as $filter => $text) {
+            foreach($this->filterOptions as $filter => $text) {
                 $filter_list[] = (object) [
                     'text'  => $text,
                     'url'   => $this->createUrl($url, $query + ['filter' => $filter]),
@@ -162,10 +162,12 @@ class SearchTools
         
         // Render the view
         return view('search-tools::bootstrap')->with('FilterValue', $this->values['filter'])
-                                                ->with('SearchValue', $this->values['search'])
-                                                ->with('FilterOptions', $filter_list)
-                                                ->with('ShowTools', $this->show)
-                                                ->with('ClearSearchLink', $this->createUrl($url, $query));
+                                              ->with('SearchValue', $this->values['search'])
+                                              ->with('FilterOptions', $filter_list)
+                                              ->with('ShowTools', $this->show)
+                                              ->with('ClearSearchLink', $this->createUrl($url, $query))
+                                              ->with('BaseURL', $url)
+                                              ->with('BaseQuery', $query);
     }
     
     /**

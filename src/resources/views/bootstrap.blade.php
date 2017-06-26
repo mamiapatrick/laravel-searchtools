@@ -20,7 +20,11 @@
             </button>
             <ul class="dropdown-menu">
                 <li>
-                    <input class="form-control" type="text" value="{{ $SearchValue or '' }}">
+                    <input class="form-control"
+                           data-base-url="{{ $BaseURL }}"
+                           data-base-query="{{ json_encode($BaseQuery) }}"
+                           type="text"
+                           value="{{ $SearchValue or '' }}">
                     @if($SearchValue)
                         <a class="clear-search" href="{{ $ClearSearchLink }}" title="Clear search">
                             <span class="fa fa-remove"></span>
