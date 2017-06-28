@@ -11,19 +11,19 @@ class SearchTools
      * Variable to store the request object.
      * @var \Illuminate\Http\Request
      */
-    private $request;
+    private static $request;
     
     /**
      * Variable to store the router object.
      * @var \Illuminate\Routing\Router
      */
-    private $router;
+    private static $router;
     
     /**
      * Variable to store which areas of the tool to render.
      * @var array
      */
-    private $show = [
+    private static $show = [
         'filter' => true,
         'search' => true,
     ];
@@ -32,13 +32,13 @@ class SearchTools
      * Variable to store the request values.
      * @var array
      */
-    private $values = [];
+    private static $values = [];
     
     /**
      * Variable to store the filter options.
      * @var array
      */
-    private $filterOptions = [];
+    private static $filterOptions = [];
     
     /**
      * The constructor. Initialise the object.
@@ -47,10 +47,10 @@ class SearchTools
      */
     public function __construct(Request $request, Router $router)
     {
-        $this->request = $request;
-        $this->router  = $router;
+        static::$request = $request;
+        static::$router  = $router;
         
-        $this->values = [
+        static::$values = [
             'filter' => $this->getQueryValue('filter'),
             'search' => $this->getQueryValue('search'),
         ];
@@ -62,7 +62,7 @@ class SearchTools
      */
     public function search()
     {
-        return $this->values['search'];
+        return static::$values['search'];
     }
     
     /**
@@ -71,7 +71,7 @@ class SearchTools
      */
     public function filter()
     {
-        return $this->values['filter'];
+        return static::$values['filter'];
     }
     
     /**
@@ -81,7 +81,7 @@ class SearchTools
      */
     public function show($name)
     {
-        $this->show[$name] = true;
+        static::$show[$name] = true;
         return $this;
     }
     
@@ -92,7 +92,7 @@ class SearchTools
      */
     public function hide($name)
     {
-        $this->show[$name] = false;
+        static::$show[$name] = false;
         return $this;
     }
     
@@ -103,7 +103,7 @@ class SearchTools
      */
     public function setFilterOptions(array $options)
     {
-        $this->filterOptions = $options;
+        static::$filterOptions = $options;
         return $this;
     }
     
@@ -115,7 +115,7 @@ class SearchTools
      */
     public function addFilterOption($filter, $text)
     {
-        $this->filterOptions[$filter] = $text;
+        static::$filterOptions[$filter] = $text;
         return $this;
     }
     
@@ -126,22 +126,22 @@ class SearchTools
     public function render()
     {
         // Get the URL
-        $url   = $this->request->url();
-        $query = $this->request->query();
+        $url   = static::$request->url();
+        $query = static::$request->query();
         
         // Set up the query
-        if(!is_null($this->values['filter']) && isset($query['filter'])) {
+        if(!is_null(static::$values['filter']) && isset($query['filter'])) {
             unset($query['filter']);
         }
-        if(!is_null($this->values['search']) && isset($query['search'])) {
+        if(!is_null(static::$values['search']) && isset($query['search'])) {
             unset($query['search']);
         }
-        if($this->request->has('page') && isset($query['page'])) {
+        if(static::$request->has('page') && isset($query['page'])) {
             unset($query['page']);
         }
         
         // Set the filter values
-        if(count($this->filterOptions)) {
+        if(count(static::$filterOptions)) {
             $filter_list = [
                 (object) [
                     'text'  => '- no filter -',
@@ -149,7 +149,7 @@ class SearchTools
                     'value' => '',
                 ],
             ];
-            foreach($this->filterOptions as $filter => $text) {
+            foreach(static::$filterOptions as $filter => $text) {
                 $filter_list[] = (object) [
                     'text'  => $text,
                     'url'   => $this->createUrl($url, $query + ['filter' => $filter]),
@@ -161,10 +161,10 @@ class SearchTools
         }
         
         // Render the view
-        return view('search-tools::bootstrap')->with('FilterValue', $this->values['filter'])
-                                              ->with('SearchValue', $this->values['search'])
+        return view('search-tools::bootstrap')->with('FilterValue', static::$values['filter'])
+                                              ->with('SearchValue', static::$values['search'])
                                               ->with('FilterOptions', $filter_list)
-                                              ->with('ShowTools', $this->show)
+                                              ->with('ShowTools', static::$show)
                                               ->with('ClearSearchLink', $this->createUrl($url, $query))
                                               ->with('BaseURL', $url)
                                               ->with('BaseQuery', $query);
@@ -186,7 +186,7 @@ class SearchTools
      */
     private function getQueryValue($name)
     {
-        return $this->request->has($name) && !empty($this->request->get($name)) ? $this->request->get($name) : null;
+        return static::$request->has($name) && !empty(static::$request->get($name)) ? static::$request->get($name) : null;
     }
     
     /**
