@@ -33,8 +33,8 @@ class SearchToolsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('search-tools', function ($app) {
-            return new SearchTools($app['request'], $app['router']);
+        $this->app->singleton(SearchTools::class, function () {
+            return new SearchTools($this->app['request'], $this->app['router']);
         });
     }
 }

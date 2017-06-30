@@ -8,6 +8,6 @@ class SearchTools extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'search-tools';
+        return \bnjns\SearchTools\SearchTools::class;
     }
 }
