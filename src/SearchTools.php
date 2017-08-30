@@ -168,18 +168,35 @@ class SearchTools
     public function render()
     {
         // Get the URL
-        $url   = $this->request->url();
-        $query = $this->request->query();
+        $url    = $this->request->url();
+        $params = $this->router->currentRouteName() ? $this->router->current()->parameters() : [];
+        $query  = $this->request->query();
 
-        // Set up the query
-        if (!is_null($this->values['filter']) && isset($query['filter'])) {
-            unset($query['filter']);
+
+        // Set up the query / parameters
+        if (!is_null($this->values['filter'])) {
+            if (isset($query['filter'])) {
+                unset($query['filter']);
+            }
+            if (isset($params['filter'])) {
+                unset($params['filter']);
+            }
         }
-        if (!is_null($this->values['search']) && isset($query['search'])) {
-            unset($query['search']);
+        if (!is_null($this->values['search'])) {
+            if (isset($query['search'])) {
+                unset($query['search']);
+            }
+            if (isset($params['search'])) {
+                unset($params['search']);
+            }
         }
-        if ($this->request->has('page') && isset($query['page'])) {
-            unset($query['page']);
+        if ($this->request->has('page')) {
+            if (isset($query['page'])) {
+                unset($query['page']);
+            }
+            if (isset($params['page'])) {
+                unset($params['page']);
+            }
         }
 
         // Set the filter values
@@ -187,14 +204,14 @@ class SearchTools
             $filter_list = [
                 (object)[
                     'text'  => $this->noFilterText,
-                    'url'   => $this->createUrl($url, $query),
+                    'url'   => $this->createUrl(array_merge($params, $query)),
                     'value' => '',
                 ],
             ];
             foreach ($this->filterOptions as $filter => $text) {
                 $filter_list[] = (object)[
                     'text'  => $text,
-                    'url'   => $this->createUrl($url, $query + ['filter' => $filter]),
+                    'url'   => $this->createUrl(array_merge($params, $query, ['filter' => $filter])),
                     'value' => $filter,
                 ];
             }
@@ -207,7 +224,7 @@ class SearchTools
                                               ->with('SearchValue', $this->values['search'])
                                               ->with('FilterOptions', $filter_list)
                                               ->with('ShowTools', $this->show)
-                                              ->with('ClearSearchLink', $this->createUrl($url, $query))
+                                              ->with('ClearSearchLink', $this->createUrl($query))
                                               ->with('BaseURL', $url)
                                               ->with('BaseQuery', $query);
     }
@@ -237,13 +254,16 @@ class SearchTools
     /**
      * Create a valid URL string.
      *
-     * @param       $url
      * @param array $query
      *
      * @return string
      */
-    private function createUrl($url, array $query = [])
+    private function createUrl(array $query = [])
     {
-        return empty($query) ? $url : ($url . '?' . http_build_query($query));
+        if ($this->router->currentRouteName()) {
+            return route($this->router->currentRouteName(), $query);
+        } else {
+            return $this->request->url() . count($query) ? ('?' . http_build_query($query)) : '';
+        }
     }
 }
