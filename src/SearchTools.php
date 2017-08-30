@@ -46,6 +46,13 @@ class SearchTools
     protected $filterOptions = [];
 
     /**
+     * Variable to store the text for no filter.
+     *
+     * @var string
+     */
+    protected $noFilterText = '- no filter -';
+
+    /**
      * The constructor. Initialise the object.
      *
      * @param \Illuminate\Http\Request   $request
@@ -54,7 +61,7 @@ class SearchTools
     public function __construct(Request $request, Router $router)
     {
         $this->request = $request;
-        $this->router = $router;
+        $this->router  = $router;
 
         $this->values = [
             'filter' => $this->getQueryValue('filter'),
@@ -140,6 +147,20 @@ class SearchTools
     }
 
     /**
+     * Set the text to show for no filter applied.
+     *
+     * @param $text
+     *
+     * @return $this
+     */
+    public function setNoFilterText($text)
+    {
+        $this->noFilterText = $text;
+
+        return $this;
+    }
+
+    /**
      * Render the view.
      *
      * @return $this
@@ -147,7 +168,7 @@ class SearchTools
     public function render()
     {
         // Get the URL
-        $url = $this->request->url();
+        $url   = $this->request->url();
         $query = $this->request->query();
 
         // Set up the query
@@ -164,14 +185,14 @@ class SearchTools
         // Set the filter values
         if (count($this->filterOptions)) {
             $filter_list = [
-                (object) [
+                (object)[
                     'text'  => '- no filter -',
                     'url'   => $this->createUrl($url, $query),
                     'value' => '',
                 ],
             ];
             foreach ($this->filterOptions as $filter => $text) {
-                $filter_list[] = (object) [
+                $filter_list[] = (object)[
                     'text'  => $text,
                     'url'   => $this->createUrl($url, $query + ['filter' => $filter]),
                     'value' => $filter,
@@ -223,6 +244,6 @@ class SearchTools
      */
     private function createUrl($url, array $query = [])
     {
-        return empty($query) ? $url : ($url.'?'.http_build_query($query));
+        return empty($query) ? $url : ($url . '?' . http_build_query($query));
     }
 }
