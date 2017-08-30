@@ -64,8 +64,8 @@ class SearchTools
         $this->router  = $router;
 
         $this->values = [
-            'filter' => $this->getQueryValue('filter'),
-            'search' => $this->getQueryValue('search'),
+            'filter' => $this->getQueryValue('filter') ?: $this->router->current()->parameter('filter'),
+            'search' => $this->getQueryValue('search') ?: $this->router->current()->parameter('search'),
         ];
     }
 
