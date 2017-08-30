@@ -186,7 +186,7 @@ class SearchTools
         if (count($this->filterOptions)) {
             $filter_list = [
                 (object)[
-                    'text'  => '- no filter -',
+                    'text'  => $this->noFilterText,
                     'url'   => $this->createUrl($url, $query),
                     'value' => '',
                 ],
