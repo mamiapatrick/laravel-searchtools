@@ -44,6 +44,14 @@
     "extra"       : {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        },
+        "laravel"     : {
+            "providers": [
+                "bnjns\\SearchTools\\SearchToolsServiceProvider"
+            ],
+            "aliases"  : {
+                "SearchTools": "bnjns\\SearchTools\\Facades\\SearchTools"
+            }
         }
     },
     "config"      : {

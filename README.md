@@ -37,6 +37,8 @@ or add the following to the `require` section of your `composer.json` file:
 	``` bash
 	$ php artisan vendor:publish --provider="bnjns\SearchTools\SearchToolsServiceProvider"
 	```
+	
+	**Note:** Steps 1 and 2 are not required for Laravel 5.5+.
 
 ## Usage
 
