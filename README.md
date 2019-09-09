@@ -1,4 +1,4 @@
-# Laravel 5 Search Tools
+# Laravel Search Tools
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -31,7 +31,9 @@ or add the following to the `require` section of your `composer.json` file:
     ```
 2. Add the following to the `aliases` entry to use the Facade:
     ``` php
-    'SearchTools' => \bnjns\SearchTools\Facades\SearchTools::class,
+    ``` php
+       use bnjns\SearchTools\Facades\SearchTools;'SearchTools' => SearchTools::class,
+       ```
     ```
 3. Run the following to publish the package's views and assets:
 	``` bash

@@ -10,14 +10,14 @@ class SearchTools
     /**
      * Variable to store the request object.
      *
-     * @var \Illuminate\Http\Request
+     * @var Request
      */
     protected $request;
 
     /**
      * Variable to store the router object.
      *
-     * @var \Illuminate\Routing\Router
+     * @var Router
      */
     protected $router;
 
@@ -55,8 +55,8 @@ class SearchTools
     /**
      * The constructor. Initialise the object.
      *
-     * @param \Illuminate\Http\Request   $request
-     * @param \Illuminate\Routing\Router $router
+     * @param Request $request
+     * @param Router  $router
      */
     public function __construct(Request $request, Router $router)
     {
